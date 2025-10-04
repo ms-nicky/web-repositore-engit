@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>App</title>
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/black-dashboard.css">
+  <link rel="stylesheet" href="/css/nucleo-icons.css">
+  <link rel="stylesheet" href="/css/util.css">
+  <link rel="stylesheet" href="/css/black-dashboard.min.css">
+  <%- typeof head !== 'undefined' ? head : '' %>
+</head>
+<body class="<%= bgmode === 'white' ? 'white-content' : '' %>">
+<script>
+// Persist white-content mode across pages
+document.addEventListener('DOMContentLoaded', function() {
+  if (localStorage.getItem('whiteContent') === 'true') {
+    document.body.classList.add('white-content');
+  } else {
+    document.body.classList.remove('white-content');
+  }
+});
+</script>
+  <%- body %>
+</body>
+</html>
+a

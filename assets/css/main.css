@@ -1,0 +1,237 @@
+/*//////////////////////////////////////////////////////////////////
+[ FONT ]
+*/
+@font-face {
+  font-family: Poppins-Regular;
+  src: url('../fonts/poppins/Poppins-Regular.ttf'); 
+}
+@font-face {
+  font-family: Poppins-Bold;
+  src: url('../fonts/poppins/Poppins-Bold.ttf'); 
+}
+@font-face {
+  font-family: Poppins-Medium;
+  src: url('../fonts/poppins/Poppins-Medium.ttf'); 
+}
+@font-face {
+  font-family: Montserrat-Bold;
+  src: url('../fonts/montserrat/Montserrat-Bold.ttf'); 
+}
+
+/*//////////////////////////////////////////////////////////////////
+[ RESET ]
+*/
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body, html {
+  height:100%;
+  font-family:Poppins-Regular, sans-serif;
+  overflow:hidden;
+}
+
+/*//////////////////////////////////////////////////////////////////
+[ BACKGROUND VIDEO ]
+*/
+#bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: cover;
+  z-index: -1;
+  filter: brightness(0.6); /* biar lebih gelap supaya form jelas */
+}
+
+/*//////////////////////////////////////////////////////////////////
+[ LINKS & TEXT ]
+*/
+a { font-family:Poppins-Regular; font-size:14px; line-height:1.7; color:#60a5fa; transition:.3s; }
+a:hover { color:#3b82f6; }
+h1,h2,h3,h4,h5,h6 { margin:0; }
+p { font-size:14px; line-height:1.7; color:#9ca3af; }
+
+/*//////////////////////////////////////////////////////////////////
+[ LOGIN WRAPPER ]
+*/
+.limiter { width:100%; margin:0 auto; }
+
+.container-login100 {
+  width:100%;  
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:15px;
+}
+
+.wrap-login100 {
+  width:420px;
+  background:rgba(17,24,39,0.85); /* transparan */
+  border-radius:12px;
+  box-shadow:0 4px 25px rgba(0,0,0,.5);
+  padding:50px 40px;
+  backdrop-filter: blur(6px); /* efek blur */
+}
+
+/*//////////////////////////////////////////////////////////////////
+[ LOGIN FORM ]
+*/
+.login100-form { width:100%; }
+
+.login100-form-title {
+  font-family:Poppins-Bold;
+  font-size:26px;
+  color:#3b82f6;
+  text-align:center;
+  margin-bottom:30px;
+}
+
+/* Input */
+.wrap-input100 { position:relative; width:100%; margin-bottom:18px; }
+
+.input100 {
+  font-family:Poppins-Medium;
+  font-size:15px;
+  color:#f3f4f6;
+  display:block;
+  width:100%;
+  background:rgba(31,41,55,0.9);
+  height:48px;
+  border-radius:8px;
+  padding:0 40px;
+  border:1px solid #374151;
+}
+.input100::placeholder { color:#9ca3af; }
+
+/* Icons */
+.symbol-input100 {
+  position:absolute;
+  top:50%;
+  left:12px;
+  transform:translateY(-50%);
+  color:#9ca3af;
+  font-size:16px;
+}
+
+/* Toggle password */
+.toggle-password {
+  position:absolute;
+  right:12px;
+  top:50%;
+  transform:translateY(-50%);
+  cursor:pointer;
+  color:#9ca3af;
+}
+
+/* Focus */
+.input100:focus {
+  border-color:#3b82f6;
+  outline:none;
+  box-shadow:0 0 0 2px rgba(59,130,246,.4);
+}
+
+/*//////////////////////////////////////////////////////////////////
+[ BUTTON ]
+*/
+.container-login100-form-btn {
+  width:100%;
+  display:flex;
+  justify-content:center;
+  margin-top:20px;
+}
+
+.login100-form-btn {
+  font-family:Montserrat-Bold;
+  font-size:15px;
+  color:#fff;
+  text-transform:uppercase;
+  width:100%;
+  height:48px;
+  border-radius:8px;
+  background:linear-gradient(90deg,#2563eb,#3b82f6);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  transition:.3s;
+}
+.login100-form-btn:hover {
+  background:linear-gradient(90deg,#1d4ed8,#2563eb);
+  transform:scale(1.02);
+}
+
+/*//////////////////////////////////////////////////////////////////
+[ SIGNUP LINK ]
+*/
+.txt2 {
+  font-size:13px;
+  color:#9ca3af;
+}
+.txt2:hover { color:#60a5fa; }
+
+/* Animasi form masuk */
+.animated-form {
+  animation: fadeInUp 0.8s ease;
+}
+@keyframes fadeInUp {
+  0% {opacity:0; transform: translateY(40px);}
+  100% {opacity:1; transform: translateY(0);}
+}
+
+/* Alert box */
+.alert-box {
+  display:none;
+  margin-top:20px;
+  padding:15px;
+  border-radius:8px;
+  background:rgba(34,197,94,0.2);
+  color:#bbf7d0;
+  font-size:14px;
+  text-align:center;
+  border:1px solid #22c55e;
+}
+.show-alert {
+  display:block !important;
+  animation: fadeIn 0.5s ease;
+}
+@keyframes fadeIn {
+  from {opacity:0;}
+  to {opacity:1;}
+}
+
+/*//////////////////////////////////////////////////////////////////
+[ RESPONSIVE ]
+*/
+@media (max-width:576px) {
+  .wrap-login100 {
+    width:100%;
+    margin:0 15px;
+    padding:40px 20px;
+  }
+}
+/* Animasi masuk form */
+.animated-form {
+  animation: fadeInUp 0.8s ease;
+}
+@keyframes fadeInUp {
+  0% {opacity:0; transform: translateY(40px);}
+  100% {opacity:1; transform: translateY(0);}
+}
+
+/* Transparansi box */
+.wrap-login100 {
+  background: rgba(17,24,39,0.85) !important;
+  backdrop-filter: blur(6px);
+}
+
+/* Toggle password icon */
+.toggle-password {
+  position:absolute;
+  right:12px;
+  top:50%;
+  transform:translateY(-50%);
+  cursor:pointer;
+  color:#9ca3af;
+}

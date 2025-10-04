@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Upload File</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4 relative overflow-hidden <%= bgmode === 'white' ? 'white-content' : '' %>">
+<script>
+// Persist white-content mode across pages
+document.addEventListener('DOMContentLoaded', function() {
+  if (localStorage.getItem('whiteContent') === 'true') {
+    document.body.classList.add('white-content');
+  } else {
+    document.body.classList.remove('white-content');
+  }
+});
+</script>
+  <!-- Background Video -->
+  <video autoplay loop muted playsinline class="absolute w-full h-full object-cover z-0 brightness-100 contrast-100 saturate-100">
+    <source src="https://files.catbox.moe/cvfdvc.mp4" type="video/mp4">
+  </video>
+  <div class="absolute w-full h-full bg-black bg-opacity-20 z-10"></div>
+
+  <!-- Card -->
+  <div class="bg-gray-900/70 text-white rounded-xl shadow-2xl p-8 w-full max-w-4xl mx-4 z-20 relative backdrop-blur-sm">
+    <h1 class="text-3xl sm:text-4xl font-bold text-center mb-6">🚀 Upload File</h1>
+
+    <!-- Form Upload -->
+  <form id="uploadForm" action="/upload" method="POST" enctype="multipart/form-data" class="space-y-4">
+      <input type="hidden" name="apikey" value="<%= apikey %>">
+
+      <label class="block text-base sm:text-lg">
+   <span class="text-gray-300 text-lg">Pilih File (png/jpg/mp4)</span>
+   <input type="file" name="file" accept=".png,.jpg,.jpeg,.mp4"
+     class="mt-2 block w-full text-sm text-gray-200
+       file:mr-4 file:py-3 file:px-4
+       file:rounded-md file:border-0
+       file:text-sm file:font-semibold
+       file:bg-indigo-600 file:text-white
+       hover:file:bg-indigo-500 focus:outline-none"
+     required>
+      </label>
+
+      <!-- Notifikasi -->
+      <div id="notif" class="hidden mt-2 text-center font-semibold"></div>
+
+      <!-- Result Link (muncul setelah sukses) -->
+      <div id="resultContainer" class="hidden mt-4 text-center">
+        <p class="text-gray-100 mb-2 text-sm">✅ Upload berhasil! Link file:</p>
+        <div class="flex items-center justify-center space-x-2">
+          <input id="resultLink" type="text" readonly
+                 class="bg-gray-800 border border-gray-600 rounded px-3 py-2 w-full text-sm sm:text-base text-gray-100">
+          <button id="copyBtn"
+                  type="button"
+                  class="bg-green-600 hover:bg-green-500 px-4 py-2 rounded font-medium text-sm sm:text-base transition">
+            Copy
+          </button>
+        </div>
+      </div>
+
+      <!-- Tombol Upload -->
+      <button type="submit"
+              class="w-full bg-indigo-600 hover:bg-indigo-500
+                     py-3 rounded-lg font-semibold
+                     transition-colors duration-300 text-base sm:text-lg">
+        Upload
+      </button>
+
+      <a href="/docs" 
+         class="block w-full bg-gray-700 hover:bg-gray-600
+                py-3 rounded-lg font-semibold text-center
+                transition-colors duration-300 text-base sm:text-lg mt-4">
+        Documentation
+      </a>
+    </form>
+
+    <!-- Sistem Post Luar Server-->
+    <div class="card mt-6">
+      <div class="bg-indigo-700 text-white px-3 py-2 rounded-t">
+        Contoh Code POST Upload (Node.js)
+      </div>
+      <div class="bg-gray-800 p-4 rounded-b">
+        <pre><code>// Simpan file ini di server Node.js, JANGAN di browser!
+        
+const axios = require('axios');
+const FormData = require('form-data');
+const fs = require('fs');
+
+// Apikey Res-Apikey
+const apikey = "ISI_APIKEY_KAMU";
+async function upload() {
+  const form = new FormData();
+  form.append("apikey", apikey);
+  form.append("file", fs.createReadStream("../uploads/foto.jpg")); //file foto/video
+  try {
+    const res = await axios.post("https://nickystore.biz.id/upload", form, {
+      headers: form.getHeaders()
+    });
+    console.log(res.data);
+  } catch (err) {
+    console.error(err.response?.data || err.message);
+  }
+}
+
+upload();</code></pre>
+      </div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div id="progressContainer" class="hidden mt-5">
+      <div class="w-full bg-gray-700 rounded-full h-3 sm:h-4">
+        <div id="progressBar" class="bg-indigo-500 h-3 sm:h-4 rounded-full w-0 transition-all duration-300"></div>
+      </div>
+      <p id="progressText" class="text-center text-sm sm:text-base mt-3 text-gray-300">0%</p>
+    </div>
+  </div>
+
+  <script>
+  // Enable video sound on click
+  const video = document.querySelector('video');
+  document.body.addEventListener('click', () => {
+    video.muted = false;
+  }, { once: true });
+
+  const form = document.getElementById('uploadForm');
+  const progressContainer = document.getElementById('progressContainer');
+  const progressBar = document.getElementById('progressBar');
+  const progressText = document.getElementById('progressText');
+  const resultContainer = document.getElementById('resultContainer');
+  const resultLink = document.getElementById('resultLink');
+  const copyBtn = document.getElementById('copyBtn');
+  const notif = document.getElementById('notif');
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const formData = new FormData(form);
+
+    progressContainer.classList.remove('hidden');
+    resultContainer.classList.add('hidden');
+    progressBar.style.width = '0%';
+    progressText.textContent = '0%';
+
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', '/upload');
+    xhr.upload.addEventListener('progress', (e) => {
+      if (e.lengthComputable) {
+        const percent = Math.round((e.loaded / e.total) * 100);
+        progressBar.style.width = percent + '%';
+        progressText.textContent = percent + '%';
+      }
+    });
+
+    xhr.onload = function () {
+      let res;
+      try {
+        res = JSON.parse(xhr.responseText);
+      } catch (err) {
+        notif.className = "mt-2 text-center font-semibold text-red-400";
+        notif.textContent = "❌ " + (xhr.responseText || "Terjadi error pada server.");
+        notif.classList.remove("hidden");
+        return;
+      }
+      if (res.status && res.file_url) {
+        notif.className = "mt-2 text-center font-semibold text-green-400";
+        notif.textContent = "✅ Upload berhasil! Sisa limit: " + res.limit_left;
+        notif.classList.remove("hidden");
+        resultLink.value = res.file_url;
+        resultContainer.classList.remove('hidden');
+      }
+    };
+
+    xhr.onerror = () => {
+      notif.className = "mt-2 text-center font-semibold text-red-400";
+      notif.textContent = "❌ Upload error!";
+      notif.classList.remove("hidden");
+    };
+
+    xhr.send(formData);
+  });
+
+  copyBtn.addEventListener('click', () => {
+    resultLink.select();
+    document.execCommand('copy');
+    copyBtn.textContent = 'Copied!';
+    setTimeout(() => copyBtn.textContent = 'Copy', 1500);
+  });
+  </script>
+</body>
+</html>

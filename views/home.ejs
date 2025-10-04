@@ -1,0 +1,1733 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Portfolio - NICKY</title>
+
+        <!-- External Libraries -->
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css"
+        />
+        <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        />
+
+        <!-- Inlined Custom Styles (from styles.css) -->
+        <style>
+/* Custom Font Face */
+@font-face {
+    font-family: 'MyAboutFont';
+    src: url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap') format('truetype');
+}
+
+/* CSS Custom Properties (Variables) */
+:root {
+    --bg: #0f172a;
+    --card: #0f172a;
+    --panel: #1e293b;
+    --muted: #94a3b8;
+    --accent: #38bdf8;
+    --primary: #2563eb;
+    --glass: rgba(30,41,59,0.8);
+    --transition: all 0.3s ease;
+    --text-primary: #ffffff;
+    --text-secondary: #e2e8f0;
+}
+
+/* Light Theme Variables */
+[data-theme="light"] {
+    --bg: #f8fafc;
+    --card: #ffffff;
+    --panel: rgba(71, 85, 105, 0.3);
+    --muted: #64748b;
+    --accent: #0ea5e9;
+    --primary: #3b82f6;
+    --glass: rgba(241,245,249,0.8);
+    --text-primary: #0f172a;
+    --text-secondary: #1e293b;
+}
+
+/* Base Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.85)), 
+                url('https://img1.pixhost.to/images/7900/631155537_kyzo.jpg') no-repeat center center fixed;
+    background-size: cover;
+    background-attachment: scroll;
+    background-color: var(--bg);
+    color: var(--text-primary);
+    scroll-behavior: smooth;
+    min-height: 100vh;
+    overflow-x: hidden;
+    will-change: transform;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transition: var(--transition);
+}
+
+/* Light theme body background */
+[data-theme="light"] body {
+    background: linear-gradient(rgba(248, 250, 252, 0.3), rgba(248, 250, 252, 0.4)), 
+                url('https://files.catbox.moe/ddpd2s.jpg') no-repeat center center fixed !important;
+    background-size: cover !important;
+    background-attachment: scroll !important;
+}
+
+/* Navigation Bar Styles */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: var(--glass);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    z-index: 1000;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    transform: translateZ(0);
+}
+
+.logo {
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: var(--accent);
+}
+
+.login-btn {
+    margin-left: auto;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    backdrop-filter: blur(4px);
+    text-decoration: none;
+}
+
+.navbar .login-btn {
+    margin-right: 15px;
+}
+
+.login-btn:hover {
+    background: var(--accent);
+    color: var(--bg);
+    box-shadow: 0 0 10px rgba(56,189,248,0.5);
+    transform: translateY(-2px);
+}
+
+.menu-toggle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    background: none;
+    border: none;
+    z-index: 1100;
+}
+
+.menu-toggle span {
+    display: block;
+    height: 3px;
+    width: 24px;
+    background: #fff;
+    border-radius: 10px;
+    transition: var(--transition);
+}
+
+.menu-toggle.open span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.menu-toggle.open span:nth-child(2) {
+    opacity: 0;
+}
+
+.menu-toggle.open span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* Tabbar Styles */
+.tabbar {
+    display: flex;
+    gap: 12px;
+    position: absolute;
+    top: 60px;
+    right: 24px;
+    background-color: rgba(30,41,59,0.7);
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    transition: all 0.25s ease;
+    transform: translateY(-10px);
+    opacity: 0;
+    pointer-events: none;
+    flex-direction: column;
+    min-width: 150px;
+    z-index: 1100;
+}
+
+/* Light theme tabbar */
+[data-theme="light"] .tabbar {
+    background-color: rgba(241,245,249,0.95);
+    box-shadow: 0 0 15px rgba(0,0,0,0.15);
+    border: 1px solid rgba(30,41,59,0.1);
+}
+
+.tabbar .login-btn {
+    margin-top: 8px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 12px;
+    justify-content: center;
+}
+
+.tabbar.show {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.tab-link {
+    background: rgba(255,255,255,0.05);
+    border: none;
+    color: var(--muted);
+    font-weight: 500;
+    padding: 8px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.25s ease;
+    outline: none;
+    text-align: center;
+    min-width: 86px;
+    backdrop-filter: blur(4px);
+}
+
+/* Light theme tab links */
+[data-theme="light"] .tab-link {
+    background: rgba(30,41,59,0.1);
+    color: #1e293b;
+}
+
+[data-theme="light"] .tab-link:hover {
+    background: rgba(30,41,59,0.2);
+    color: #0f172a;
+}
+
+[data-theme="light"] .tab-link.active {
+    background: var(--primary);
+    color: #ffffff;
+}
+
+.tab-link:hover {
+    background-color: rgba(59,130,246,0.1);
+    color: var(--accent);
+    box-shadow: 0 0 8px #3b82f6;
+}
+
+.tab-link.active {
+    background-color: rgba(37,99,235,0.8);
+    color: #fff;
+    box-shadow: 0 0 12px #3b82f6;
+    transform: scale(1.03);
+}
+
+/* Header Styles */
+header {
+    text-align: center;
+    padding: 100px 20px 40px;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin: 10px 0;
+    font-weight: 700;
+}
+
+header p {
+    font-size: 1rem;
+    opacity: 0.8;
+    margin: 0;
+    font-weight: 300;
+}
+
+.profile-pic {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 0 15px rgba(255,255,255,0.08);
+    margin-bottom: 20px;
+}
+
+/* Section Styles */
+section {
+    padding: 40px 20px;
+    max-width: 1000px;
+    margin: auto;
+}
+
+/* Shop Button Section */
+.shop-section {
+    padding: 20px 20px 30px;
+    text-align: center;
+}
+
+.shop-button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.shop-btn {
+    background: linear-gradient(135deg, var(--accent), var(--primary));
+    border: none;
+    color: #fff;
+    padding: 12px 32px;
+    border-radius: 25px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3);
+    font-family: 'Poppins', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.shop-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(56, 189, 248, 0.5);
+    background: linear-gradient(135deg, #22d3ee, #3b82f6);
+}
+
+.shop-btn:active {
+    transform: translateY(-1px);
+}
+
+.shop-btn i {
+    font-size: 1.2rem;
+}
+
+/* Navigation Controls Container */
+.nav-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+.toggle-switch {
+    position: relative;
+    width: 60px;
+    height: 30px;
+    background: var(--panel);
+    border-radius: 25px;
+    border: 2px solid var(--accent);
+    transition: var(--transition);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.toggle-switch:hover {
+    box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
+}
+
+.toggle-slider {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 22px;
+    height: 22px;
+    background: var(--accent);
+    border-radius: 50%;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.moon-icon,
+.sun-icon {
+    position: absolute;
+    font-size: 12px;
+    transition: all 0.3s ease;
+}
+
+.moon-icon {
+    color: #fff;
+    opacity: 1;
+    transform: scale(1);
+}
+
+.sun-icon {
+    color: #fbbf24;
+    opacity: 0;
+    transform: scale(0);
+}
+
+/* Light theme toggle states */
+[data-theme="light"] .toggle-slider {
+    left: calc(100% - 26px);
+    background: #fbbf24;
+}
+
+[data-theme="light"] .moon-icon {
+    opacity: 0;
+    transform: scale(0);
+}
+
+[data-theme="light"] .sun-icon {
+    opacity: 1;
+    transform: scale(1);
+}
+
+[data-theme="light"] .toggle-switch {
+    background: #e2e8f0;
+    border-color: #fbbf24;
+}
+
+/* About Section */
+.about {
+    text-align: left;
+    line-height: 1.8;
+    font-size: 16px;
+    color: var(--text-secondary);
+}
+
+.about h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 32px;
+    color: #3b82f6;
+    font-family: 'MyAboutFont', sans-serif;
+    font-weight: 600;
+}
+
+.about p {
+    margin-bottom: 16px;
+    text-align: justify;
+    font-weight: 600;
+    font-family: 'MyAboutFont', sans-serif;
+}
+
+.about strong {
+    color: var(--accent);
+    font-weight: 500;
+}
+
+/* Skills Panel */
+.skills-panel {
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+    border-radius: 12px;
+    padding: 25px 20px 20px 20px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.45);
+}
+
+.skills-tabs {
+    width: 100%;
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+    padding-top: 10px;
+}
+
+.skills-tabs button,
+.cat-btn {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.04);
+    color: var(--muted);
+    padding: 8px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: center;
+    font-weight: 500;
+    min-width: 100px;
+    transition: all 0.3s ease;
+    font-family: 'Poppins', sans-serif;
+    position: relative;
+    z-index: 1;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Light theme skills tabs text color */
+[data-theme="light"] .skills-tabs button,
+[data-theme="light"] .cat-btn {
+    color: #1e293b;
+    border: 1px solid rgba(30,41,59,0.1);
+}
+
+[data-theme="light"] .skills-tabs button:hover,
+[data-theme="light"] .cat-btn:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+}
+
+/* Section titles always blue in both themes */
+section h2 {
+    color: #3b82f6 !important;
+    font-size: 32px;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+}
+
+.skills-tabs button:hover,
+.cat-btn:hover {
+    background: rgba(255,255,255,0.05);
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-1px);
+}
+
+.skills-tabs button.active,
+.cat-btn.active {
+    background: var(--primary);
+    color: #fff !important;
+    border-color: rgba(255,255,255,0.06);
+    box-shadow: 0 6px 18px rgba(37,99,235,0.12);
+    transform: translateY(-2px);
+    opacity: 1;
+}
+
+.skills-grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 16px;
+}
+
+.skill-card {
+    background-color: var(--panel);
+    padding: 14px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease, background-color 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: translateY(10px);
+    will-change: transform, opacity;
+}
+
+/* Light theme skill cards - same color as panel */
+[data-theme="light"] .skill-card {
+    background-color: var(--panel);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+    border: 1px solid rgba(30, 41, 59, 0.1);
+}
+
+[data-theme="light"] .skill-card:hover {
+    box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+}
+
+/* Light theme skills panel */
+[data-theme="light"] .skills-panel {
+    background: linear-gradient(180deg, rgba(30, 41, 59, 0.05), transparent);
+    border: 1px solid rgba(30, 41, 59, 0.1);
+}
+
+.skill-card.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.skill-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.6);
+}
+
+.skill-card img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    filter: drop-shadow(0 6px 14px rgba(0,0,0,0.6));
+}
+
+.skill-card p {
+    margin: 0;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+/* Footer Styles */
+footer {
+    text-align: center;
+    padding: 20px;
+    font-size: 0.9rem;
+    opacity: 0.6;
+    margin-top: 40px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .tabbar {
+        right: 12px;
+        top: 56px;
+    }
+    
+    .nav-controls {
+        gap: 12px;
+    }
+    
+    .toggle-switch {
+        width: 50px;
+        height: 25px;
+    }
+    
+    .toggle-slider {
+        width: 19px;
+        height: 19px;
+    }
+    
+    [data-theme="light"] .toggle-slider {
+        left: calc(100% - 23px);
+    }
+    
+    header {
+        padding-top: 90px;
+    }
+    
+    header h1 {
+        font-size: 2rem;
+    }
+    
+    .skills-tabs {
+        gap: 6px;
+        overflow-x: auto;
+        padding-bottom: 8px;
+    }
+    
+    .skills-tabs button {
+        white-space: nowrap;
+        min-width: auto;
+        padding: 8px 12px;
+        font-size: 0.9rem;
+    }
+    
+    .skills-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 12px;
+    }
+    
+    .about {
+        font-size: 14px;
+    }
+    
+    .about h2 {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar {
+        padding: 8px 16px;
+    }
+    
+    header {
+        padding: 80px 16px 30px;
+    }
+    
+    section {
+        padding: 30px 16px;
+    }
+    
+    .skills-grid {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 10px;
+    }
+    
+    .skill-card {
+        padding: 10px;
+    }
+    
+    .skill-card img {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .skill-card p {
+        font-size: 12px;
+    }
+}
+
+/* Animation keyframes */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    body {
+        scroll-behavior: auto;
+    }
+}
+
+/* Focus states for accessibility */
+.tab-link:focus,
+.cat-btn:focus,
+.menu-toggle:focus,
+.login-btn:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    :root {
+        --bg: #000000;
+        --panel: #1a1a1a;
+        --muted: #ffffff;
+        --accent: #00ffff;
+    }
+}
+
+/* Login Page Styles */
+.login-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--bg) 0%, rgba(15,23,42,0.9) 100%);
+    background-image: url('https://files.catbox.moe/yqklap.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    display: flex;
+    flex-direction: column;
+}
+
+[data-theme="light"] .login-container {
+    background-image: url('https://files.catbox.moe/ddpd2s.jpg');
+}
+
+.login-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 20px 20px;
+}
+
+.login-form-wrapper {
+    background: var(--glass);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 40px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+}
+
+.login-form-wrapper h1 {
+    color: var(--primary);
+    font-size: 32px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 8px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.login-subtitle {
+    color: var(--muted);
+    text-align: center;
+    margin-bottom: 32px;
+    font-size: 16px;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    color: var(--text-primary);
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.form-group input {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    padding: 12px 16px;
+    color: var(--text-primary);
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+}
+
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+}
+
+.checkbox-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--muted);
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.checkbox-wrapper input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+}
+
+.forgot-password {
+    color: var(--primary);
+    font-size: 14px;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.forgot-password:hover {
+    color: var(--accent);
+}
+
+.login-form .login-btn {
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 16px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.login-form .login-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(59,130,246,0.3);
+}
+
+.login-footer {
+    text-align: center;
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.login-footer p {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.login-footer a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.login-footer a:hover {
+    color: var(--accent);
+}
+
+/* Light theme login adjustments */
+[data-theme="light"] .form-group input {
+    background: rgba(30,41,59,0.05);
+    border-color: rgba(30,41,59,0.1);
+    color: var(--text-primary);
+}
+
+[data-theme="light"] .login-footer {
+    border-top-color: rgba(30,41,59,0.1);
+}
+
+/* Mobile login styles */
+@media (max-width: 768px) {
+    .login-form-wrapper {
+        padding: 30px 20px;
+        margin: 20px;
+    }
+    
+    .login-content {
+        padding: 60px 10px 20px;
+    }
+}
+        </style>
+    </head>
+        <body class="<%= bgmode === 'white' ? 'white-content' : '' %>">
+        <script>
+        // Persist white-content mode across pages
+        document.addEventListener('DOMContentLoaded', function() {
+            if (localStorage.getItem('whiteContent') === 'true') {
+                document.body.classList.add('white-content');
+            } else {
+                document.body.classList.remove('white-content');
+            }
+        });
+        </script>
+        <!-- Navigation Bar -->
+        <div class="navbar">
+            <div class="logo">NICKY</div>
+
+            <div class="nav-controls">
+                <!-- Theme Toggle Button -->
+                <div class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark/light theme">
+                    <div class="toggle-switch">
+                        <div class="toggle-slider">
+                            <i class="fas fa-moon moon-icon"></i>
+                            <i class="fas fa-sun sun-icon"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Menu Toggle Button -->
+                <div class="menu-toggle" onclick="toggleMenu(this)">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+
+                <div class="tabbar" id="tabLinks">
+                    <button
+                        class="tab-link active"
+                        onclick="scrollToSection('home', this)"
+                    >
+                        Home
+                    </button>
+                    <button
+                        class="tab-link"
+                        onclick="scrollToSection('about', this)"
+                    >
+                        About
+                    </button>
+                    <button
+                        class="tab-link"
+                        onclick="scrollToSection('skills', this)"
+                    >
+                        Skills
+                    </button>
+<a href="users/login" class="tab-link login-btn">
+    <i class="fas fa-sign-in-alt"></i> Login
+</a>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Header Section -->
+        <header id="home" data-aos="fade-down">
+            <img
+                src="https://files.catbox.moe/5da1pe.jpg"
+                alt="Profile"
+                class="profile-pic"
+            />
+            <h1>
+                NICKY
+                <i
+                    class="fas fa-check-circle"
+                    style="color: var(--accent); font-size: 0.8em"
+                ></i>
+            </h1>
+            <p>Web Developer & Computer Science Student</p>
+        </header>
+
+        <!-- Shop Button Section -->
+        <!-- Shop & API Button Section -->
+<section class="shop-section" data-aos="fade-up">
+    <div class="shop-button-container" style="gap: 15px;">
+        <button
+            class="shop-btn"
+            onclick="window.location.href='./shop'"
+        >
+            <i class="fas fa-shopping-cart"></i>
+            Shop
+        </button>
+
+        <button
+            class="shop-btn"
+            onclick="window.location.href='/docs'"
+        >
+            <i class="fas fa-code"></i>
+            Api Get Start
+        </button>
+    </div>
+</section>
+        <!-- About Section -->
+        <section id="about" class="about" data-aos="fade-up">
+            <h2>About Me</h2>
+            <p>
+                Halo, saya <strong>NICKY</strong>, seorang siswa SMK jurusan
+                <strong>Teknik Komputer dan Jaringan</strong>. Saya memiliki
+                pengalaman profesional bekerja dengan berbagai bahasa
+                pemrograman termasuk <strong>JavaScript</strong>,
+                <strong>PHP</strong>, <strong>Python</strong>, dan
+                <strong>C++</strong>, serta framework seperti
+                <strong>Laravel</strong> dan <strong>Next.js</strong>.
+            </p>
+            <p>
+                Selain pengembangan web, saya aktif memperluas keahlian saya di
+                bidang <strong>keamanan siber</strong>. Saya rutin
+                berpartisipasi dalam kompetisi
+                <strong>Capture The Flag (CTF)</strong> untuk mengasah
+                keterampilan dalam penetration testing, vulnerability
+                assessment, dan praktik coding yang aman. Tantangan ini membantu
+                saya tetap update dengan ancaman keamanan terbaru dan mekanisme
+                pertahanannya.
+            </p>
+            <p>
+                Saya juga senang menggabungkan keterampilan teknis dengan proyek
+                kreatif. Saya telah mengembangkan
+                <strong>permainan tebak gambar interaktif</strong> menggunakan
+                <strong>JavaScript</strong> yang berjalan di
+                <strong>WhatsApp</strong> melalui backend
+                <strong>Node.js</strong>, menunjukkan kemampuan saya dalam
+                membuat aplikasi yang menarik.
+            </p>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" data-aos="zoom-in">
+            <h2 style="text-align: center; margin-bottom: 16px">My Skills</h2>
+
+            <div class="skills-panel">
+                <!-- Skill Category Tabs -->
+                <div
+                    class="skills-tabs"
+                    role="tablist"
+                    aria-label="Skill categories"
+                >
+                    <button
+                        class="cat-btn active"
+                        data-cat="languages"
+                        onclick="showCategory('languages', this)"
+                    >
+                        Programming
+                    </button>
+                    <button
+                        class="cat-btn"
+                        data-cat="frameworks"
+                        onclick="showCategory('frameworks', this)"
+                    >
+                        Frameworks
+                    </button>
+                    <button
+                        class="cat-btn"
+                        data-cat="os"
+                        onclick="showCategory('os', this)"
+                    >
+                        Operating Systems
+                    </button>
+                    <button
+                        class="cat-btn"
+                        data-cat="database"
+                        onclick="showCategory('database', this)"
+                    >
+                        Database
+                    </button>
+                    <button
+                        class="cat-btn"
+                        data-cat="bug-hunter"
+                        onclick="showCategory('bug-hunter', this)"
+                    >
+                        Bug Hunter
+                    </button>
+                </div>
+
+                <!-- Skills Grid -->
+                <div class="skills-grid" id="skillsGrid">
+                    <!-- Programming Languages -->
+                    <div class="skill-card skill-item" data-cat="languages">
+                        <img
+                            src="https://img.icons8.com/color/48/000000/javascript--v1.png"
+                            alt="JavaScript"
+                        />
+                        <p>JavaScript</p>
+                    </div>
+                    <div class="skill-card skill-item" data-cat="languages">
+                        <img
+                            src="https://img.icons8.com/color/48/000000/html-5--v1.png"
+                            alt="HTML"
+                        />
+                        <p>HTML</p>
+                    </div>
+                    <div class="skill-card skill-item" data-cat="languages">
+                        <img
+                            src="https://img.icons8.com/color/48/000000/css3.png"
+                            alt="CSS"
+                        />
+                        <p>CSS</p>
+                    </div>
+                    <div class="skill-card skill-item" data-cat="languages">
+                        <img
+                            src="https://img.icons8.com/officel/48/php-logo.png"
+                            alt="PHP"
+                        />
+                        <p>PHP</p>
+                    </div>
+                    <div class="skill-card skill-item" data-cat="languages">
+                        <img
+                            src="https://img.icons8.com/color/48/000000/python--v1.png"
+                            alt="Python"
+                        />
+                        <p>Python</p>
+                    </div>
+
+                    <!-- Frameworks -->
+                    <div
+                        class="skill-card skill-item"
+                        data-cat="frameworks"
+                        style="display: none"
+                    >
+                        <img
+                            src="https://img.icons8.com/ios-filled/50/ffffff/laravel.png"
+                            alt="Laravel"
+                        />
+                        <p>Laravel</p>
+                    </div>
+                    <div
+                        class="skill-card skill-item"
+                        data-cat="frameworks"
+                        style="display: none"
+                    >
+                        <img
+                            src="https://img.icons8.com/color/48/000000/nextjs.png"
+                            alt="Next.js"
+                        />
+                        <p>Next.js</p>
+                    </div>
+                    <div
+                        class="skill-card skill-item"
+                        data-cat="frameworks"
+                        style="display: none"
+                    >
+                        <img
+                            src="https://img.icons8.com/color/48/000000/nodejs.png"
+                            alt="Node.js"
+                        />
+                        <p>Node.js</p>
+                    </div>
+
+                    <!-- Operating Systems -->
+                    <div
+                        class="skill-card skill-item"
+                        data-cat="os"
+                        style="display: none"
+                    >
+                        <img
+                            src="https://img.icons8.com/color/48/000000/windows-10.png"
+                            alt="Windows"
+                        />
+                        <p>Windows</p>
+                    </div>
+                    <div
+                        class="skill-card skill-item"
+                        data-cat="os"
+                        style="display: none"
+                    >
+                        <img
+                            src="https://img.icons8.com/color/48/000000/linux--v1.png"
+                            alt="Linux"
+                        />
+                        <p>Linux</p>
+                    </div>
+                    <div
+                        class="skill-card skill-item"
+                        data-cat="os"
+                        style="display: none"
+                    >
+                        <img
+                            src="https://img.icons8.com/color/48/000000/ubuntu--v1.png"
+                            alt="Ubuntu"
+                        />
+                        <p>Ubuntu</p>
+                    </div>
+                    <div
+                        class="skill-card skill-item"
+                        data-cat="os"
+                        style="display: none"
+                    >
+                        <img
+                            src="https://img.icons8.com/fluency/48/000000/proxmox.png"
+                            alt="Proxmox"
+                        />
+                        <p>Proxmox</p>
+                    </div>
+                    <div
+                        class="skill-card skill-item"
+                        data-cat="os"
+                        style="display: none"
+                    >
+                        <img
+                            src="https://img.icons8.com/color/48/000000/kali-linux.png"
+                            alt="Kali Linux"
+                        />
+                        <p>Kali Linux</p>
+                    </div>
+                    <div
+                        class="skill-card skill-item"
+                        data-cat="os"
+                        style="display: none"
+                    >
+                        <img
+                            src="https://img.icons8.com/color/48/000000/android-os.png"
+                            alt="Android"
+                        />
+                        <p>Android</p>
+                    </div>
+
+                    <!-- Database -->
+                    <div
+                        class="skill-card skill-item"
+                        data-cat="database"
+                        style="display: none"
+                    >
+                        <img
+                            src="https://img.icons8.com/color/48/000000/mongodb.png"
+                            alt="MongoDB"
+                        />
+                        <p>MongoDB</p>
+                    </div>
+                    <div
+                        class="skill-card skill-item"
+                        data-cat="database"
+                        style="display: none"
+                    >
+                        <img
+                            src="https://img.icons8.com/color/48/000000/phpmyadmin.png"
+                            alt="phpMyAdmin"
+                        />
+                        <p>phpMyAdmin</p>
+                    </div>
+
+                    <!-- Bug Hunter / Cybersecurity -->
+                    <div
+                        class="skill-card skill-item"
+                        data-cat="bug-hunter"
+                        style="display: none"
+                    >
+                        <img
+                            src="https://img.icons8.com/color/48/000000/kali-linux.png"
+                            alt="Kali Linux"
+                        />
+                        <p>Kali Linux</p>
+                    </div>
+                    <div
+                        class="skill-card skill-item"
+                        data-cat="bug-hunter"
+                        style="display: none"
+                    >
+                        <img
+                            src="https://img.icons8.com/color/48/000000/sql.png"
+                            alt="SQL Injection"
+                        />
+                        <p>SQL Injection</p>
+                    </div>
+                    <div
+                        class="skill-card skill-item"
+                        data-cat="bug-hunter"
+                        style="display: none"
+                    >
+                        <img
+                            src="https://img.icons8.com/color/48/000000/security-configuration.png"
+                            alt="Metasploit"
+                        />
+                        <p>Metasploit</p>
+                    </div>
+                    <div
+                        class="skill-card skill-item"
+                        data-cat="bug-hunter"
+                        style="display: none"
+                    >
+                        <img
+                            src="https://img.icons8.com/color/48/000000/javascript--v1.png"
+                            alt="XSS"
+                        />
+                        <p>XSS</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer data-aos="fade-up">
+            &copy; 2025 NICKY | All Rights Reserved.
+        </footer>
+
+        <!-- Scripts -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+
+        <!-- Inlined Custom Script (from script.js) -->
+        <script>
+/* Initialize AOS (Animate On Scroll) library */
+document.addEventListener('DOMContentLoaded', function() {
+    AOS.init({
+        duration: 900,
+        once: true,
+        offset: 100,
+        easing: 'ease-out-cubic'
+    });
+
+    // Initialize default skills category
+    initializeSkillsSection();
+});
+
+/**
+ * Scrolls to a specific section and updates navigation state
+ * @param {string} id - The ID of the section to scroll to
+ * @param {HTMLElement} btn - The button element that triggered the scroll
+ */
+function scrollToSection(id, btn) {
+    const targetElement = document.getElementById(id);
+    
+    if (targetElement) {
+        targetElement.scrollIntoView({ 
+            behavior: 'smooth',
+            block: 'start'
+        });
+        
+        // Update active tab state
+        updateActiveTab(btn);
+        
+        // Close mobile menu
+        closeMobileMenu();
+    }
+}
+
+/**
+ * Updates the active state of navigation tabs
+ * @param {HTMLElement} activeBtn - The button to set as active
+ */
+function updateActiveTab(activeBtn) {
+    // Remove active class from all tab links
+    document.querySelectorAll('.tab-link').forEach(el => {
+        el.classList.remove('active');
+    });
+    
+    // Add active class to clicked button if it's a tab-link
+    if (activeBtn && activeBtn.classList.contains('tab-link')) {
+        activeBtn.classList.add('active');
+    }
+}
+
+/**
+ * Toggles the mobile navigation menu
+ * @param {HTMLElement} toggleElement - The hamburger menu toggle element
+ */
+function toggleMenu(toggleElement) {
+    const tabLinks = document.getElementById('tabLinks');
+    
+    if (toggleElement && tabLinks) {
+        toggleElement.classList.toggle('open');
+        tabLinks.classList.toggle('show');
+    }
+}
+
+/**
+ * Closes the mobile navigation menu
+ */
+function closeMobileMenu() {
+    const tabLinks = document.getElementById('tabLinks');
+    const menuToggle = document.querySelector('.menu-toggle');
+    
+    if (tabLinks && menuToggle) {
+        tabLinks.classList.remove('show');
+        menuToggle.classList.remove('open');
+    }
+}
+
+/**
+ * Shows skills for a specific category with smooth animations
+ * @param {string} category - The category of skills to show
+ * @param {HTMLElement} btn - The category button that was clicked
+ */
+function showCategory(category, btn) {
+    if (!category) return;
+    
+    // Update active category button
+    updateActiveCategoryButton(btn);
+    
+    // Hide current visible skills with fade out animation
+    hideCurrentSkills();
+    
+    // Show new category skills after fade out completes
+    setTimeout(() => {
+        showSkillsForCategory(category);
+    }, 300); // Match this with CSS transition duration
+}
+
+/**
+ * Updates the active state of category buttons
+ * @param {HTMLElement} activeBtn - The button to set as active
+ */
+function updateActiveCategoryButton(activeBtn) {
+    document.querySelectorAll('.cat-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    
+    if (activeBtn) {
+        activeBtn.classList.add('active');
+    }
+}
+
+/**
+ * Hides currently visible skill cards
+ */
+function hideCurrentSkills() {
+    document.querySelectorAll('.skill-item.show').forEach(item => {
+        item.classList.remove('show');
+    });
+}
+
+/**
+ * Shows skill cards for a specific category
+ * @param {string} category - The category of skills to show
+ */
+function showSkillsForCategory(category) {
+    const allSkillItems = document.querySelectorAll('.skill-item');
+    
+    allSkillItems.forEach(item => {
+        if (item.dataset.cat === category) {
+            item.style.display = 'flex';
+            item.setAttribute('aria-hidden', 'false');
+            
+            // Trigger show animation with slight delay for staggered effect
+            setTimeout(() => {
+                item.classList.add('show');
+            }, 10);
+        } else {
+            item.style.display = 'none';
+            item.setAttribute('aria-hidden', 'true');
+            item.classList.remove('show');
+        }
+    });
+}
+
+/**
+ * Initializes the skills section with default category
+ */
+function initializeSkillsSection() {
+    const defaultButton = document.querySelector('.cat-btn[data-cat="languages"]');
+    
+    if (defaultButton) {
+        // Set default active category
+        showCategory('languages', defaultButton);
+        
+        // Show initial items with staggered animation
+        setTimeout(() => {
+            const languageSkills = document.querySelectorAll('.skill-item[data-cat="languages"]');
+            languageSkills.forEach((item, index) => {
+                setTimeout(() => {
+                    item.classList.add('show');
+                }, index * 100); // Staggered animation delay
+            });
+        }, 100);
+    }
+}
+
+/**
+ * Handles scroll events for navbar transparency and active section highlighting
+ */
+window.addEventListener('scroll', function() {
+    const navbar = document.querySelector('.navbar');
+    const scrolled = window.pageYOffset;
+    
+    if (navbar) {
+        if (scrolled > 100) {
+            navbar.style.backgroundColor = 'rgba(30,41,59,0.95)';
+        } else {
+            navbar.style.backgroundColor = 'rgba(30,41,59,0.8)';
+        }
+    }
+    
+    // Update active section based on scroll position
+    updateActiveSection();
+});
+
+/**
+ * Updates the active navigation item based on current scroll position
+ */
+function updateActiveSection() {
+    const sections = ['home', 'about', 'skills'];
+    const navLinks = document.querySelectorAll('.tab-link');
+    
+    let currentSection = '';
+    
+    sections.forEach(sectionId => {
+        const section = document.getElementById(sectionId);
+        if (section) {
+            const rect = section.getBoundingClientRect();
+            if (rect.top <= 100 && rect.bottom >= 100) {
+                currentSection = sectionId;
+            }
+        }
+    });
+    
+    // Update active state based on current section
+    navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.textContent.toLowerCase() === currentSection) {
+            link.classList.add('active');
+        }
+    });
+    
+    // Default to home if no section is clearly active
+    if (!currentSection) {
+        const homeLink = document.querySelector('.tab-link[onclick*="home"]');
+        if (homeLink) {
+            homeLink.classList.add('active');
+        }
+    }
+}
+
+/**
+ * Handles keyboard navigation for accessibility
+ */
+document.addEventListener('keydown', function(event) {
+    // Handle escape key to close mobile menu
+    if (event.key === 'Escape') {
+        closeMobileMenu();
+    }
+    
+    // Handle enter/space key for buttons
+    if (event.key === 'Enter' || event.key === ' ') {
+        const activeElement = document.activeElement;
+        
+        if (activeElement.classList.contains('cat-btn')) {
+            event.preventDefault();
+            const category = activeElement.dataset.cat;
+            if (category) {
+                showCategory(category, activeElement);
+            }
+        }
+        
+        if (activeElement.classList.contains('menu-toggle')) {
+            event.preventDefault();
+            toggleMenu(activeElement);
+        }
+    }
+});
+
+/**
+ * Handles click outside menu to close it
+ */
+document.addEventListener('click', function(event) {
+    const tabbar = document.getElementById('tabLinks');
+    const menuToggle = document.querySelector('.menu-toggle');
+    
+    if (tabbar && menuToggle) {
+        const isClickInsideMenu = tabbar.contains(event.target);
+        const isClickOnToggle = menuToggle.contains(event.target);
+        
+        if (!isClickInsideMenu && !isClickOnToggle && tabbar.classList.contains('show')) {
+            closeMobileMenu();
+        }
+    }
+});
+
+/**
+ * Optimized resize handler for responsive behavior
+ */
+let resizeTimeout;
+window.addEventListener('resize', function() {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(function() {
+        // Close mobile menu on resize to desktop
+        if (window.innerWidth > 768) {
+            closeMobileMenu();
+        }
+    }, 250);
+});
+
+/**
+ * Smooth scroll polyfill for older browsers
+ */
+if (!('scrollBehavior' in document.documentElement.style)) {
+    // Polyfill for smooth scrolling
+    function smoothScrollTo(element) {
+        const targetPosition = element.offsetTop - 80; // Account for fixed navbar
+        const startPosition = window.pageYOffset;
+        const distance = targetPosition - startPosition;
+        const duration = 1000;
+        let start = null;
+        
+        function animation(currentTime) {
+            if (start === null) start = currentTime;
+            const timeElapsed = currentTime - start;
+            const run = ease(timeElapsed, startPosition, distance, duration);
+            window.scrollTo(0, run);
+            if (timeElapsed < duration) requestAnimationFrame(animation);
+        }
+        
+        function ease(t, b, c, d) {
+            t /= d / 2;
+            if (t < 1) return c / 2 * t * t + b;
+            t--;
+            return -c / 2 * (t * (t - 2) - 1) + b;
+        }
+        
+        requestAnimationFrame(animation);
+    }
+}
+
+/**
+ * Performance optimization: Preload skill category images
+ */
+function preloadImages() {
+    const imageUrls = [
+        'https://img.icons8.com/color/48/000000/javascript--v1.png',
+        'https://img.icons8.com/color/48/000000/html-5--v1.png',
+        'https://img.icons8.com/color/48/000000/css3.png',
+        'https://img.icons8.com/officel/48/php-logo.png',
+        'https://img.icons8.com/color/48/000000/python--v1.png',
+        'https://img.icons8.com/ios-filled/50/ffffff/laravel.png',
+        'https://img.icons8.com/color/48/000000/nextjs.png',
+        'https://img.icons8.com/color/48/000000/nodejs.png'
+    ];
+    
+    imageUrls.forEach(url => {
+        const img = new Image();
+        img.src = url;
+    });
+}
+
+// Initialize image preloading
+preloadImages();
+
+/**
+ * Theme Toggle Functionality
+ */
+function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    
+    // Apply theme with smooth transition
+    document.documentElement.style.transition = 'all 0.3s ease';
+    document.documentElement.setAttribute('data-theme', newTheme);
+    
+    // Save theme preference
+    localStorage.setItem('theme', newTheme);
+    
+    // Remove transition after animation completes
+    setTimeout(() => {
+        document.documentElement.style.transition = '';
+    }, 300);
+}
+
+/**
+ * Initialize theme from localStorage or system preference
+ */
+function initializeTheme() {
+    const savedTheme = localStorage.getItem('theme');
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    let theme = 'dark'; // Default theme
+    
+    if (savedTheme) {
+        theme = savedTheme;
+    } else if (systemPrefersDark) {
+        theme = 'dark';
+    } else {
+        theme = 'light';
+    }
+    
+    document.documentElement.setAttribute('data-theme', theme);
+}
+
+/**
+ * Listen for system theme changes
+ */
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+    if (!localStorage.getItem('theme')) {
+        const theme = e.matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', theme);
+    }
+});
+
+// Initialize theme on page load
+initializeTheme();
+        </script>
+    </body>
+</html>

@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NICKY STORE — Server Pterodactyl</title>
+  <meta name="description" content="List produk server Pterodactyl: Node.js, Minecraft Java & Bedrock. Pesan via WhatsApp.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Animations */
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    @keyframes checkmark {
+      0% { transform: scale(0); opacity: 0; }
+      50% { transform: scale(1.2); opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+    @keyframes slideInLeft {
+      0% { transform: translateX(-50px); opacity: 0; }
+      100% { transform: translateX(0); opacity: 1; }
+    }
+    @keyframes slideInRight {
+      0% { transform: translateX(50px); opacity: 0; }
+      100% { transform: translateX(0); opacity: 1; }
+    }
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255,255,255,.3);
+      border-radius: 50%;
+      border-top-color: var(--text);
+      animation: spin 1s ease-in-out infinite;
+    }
+    .checkmark {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      animation: checkmark 0.5s ease-out;
+    }
+    :root{
+      --bg:#0b1020;
+      --card:#121936;
+      --muted:#93a2b7;
+      --text:#e8edf7;
+      --acc:#22c55e; /* aksen hijau */
+      --acc-2:#60a5fa; /* biru lembut */
+      --ring:rgba(96,165,250,.35);
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;background:radial-gradient(1200px 600px at 80% -10%, rgba(96,165,250,.12), transparent 60%),radial-gradient(1000px 500px at -10% 10%, rgba(34,197,94,.12), transparent 60%), var(--bg);color:var(--text);font-family:Inter,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+    a{color:inherit;text-decoration:none}
+    .container{max-width:1100px;margin:auto;padding:28px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px;animation:fadeIn 0.8s ease-out forwards}
+    .brand{display:flex;align-items:center;gap:12px;animation:slideInLeft 0.6s ease-out forwards}
+    .logo{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--acc-2),#1d4ed8);display:grid;place-items:center;box-shadow:var(--shadow);transition:transform 0.3s ease, box-shadow 0.3s ease}
+    .logo:hover {transform: rotate(15deg) scale(1.1); box-shadow: 0 8px 25px rgba(29, 78, 216, 0.3);}
+    .logo svg{width:22px;height:22px;fill:white}
+    h1{font-size:1.6rem;margin:0}
+    .subtitle{color:var(--muted);font-size:.95rem}
+    .pillbar{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 8px}
+    .pill{
+      padding:10px 14px;
+      border-radius:999px;
+      background:#0e1530;
+      border:1px solid rgba(255,255,255,.06);
+      cursor:pointer;
+      transition:all 0.3s ease;
+      animation:fadeIn 0.5s ease-out forwards;
+      animation-delay: calc(0.1s * var(--i));
+      opacity:0;
+    }
+    .pill:nth-child(1) { --i: 1; }
+    .pill:nth-child(2) { --i: 2; }
+    .pill:nth-child(3) { --i: 3; }
+    .pill:nth-child(4) { --i: 4; }
+    .pill:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    .pill.active{background:linear-gradient(135deg,rgba(96,165,250,.22),rgba(34,197,94,.22));border-color:transparent}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .card {
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+      opacity: 1;
+      visibility: visible;
+    }
+    .card.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      height: 0;
+      overflow: hidden;
+      position: absolute;
+    }
+    .list div {
+      transition: all 0.2s ease;
+    }
+    .list div:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    @media (max-width:980px){.grid{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:640px){header{flex-direction:column;align-items:flex-start}.grid{grid-template-columns:1fr}}
+    .card{background:linear-gradient(180deg,rgba(255,255,255,.04),transparent),var(--card);border:1px solid rgba(255,255,255,.06);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:14px;position:relative;overflow:hidden;transform:scale(0.95);opacity:0;animation:fadeIn 0.5s ease-out forwards;animation-delay: calc(0.2s * var(--i))}
+    .card:nth-child(1) { --i: 1; }
+    .card:nth-child(2) { --i: 2; }
+    .card:nth-child(3) { --i: 3; }
+    .card:focus-within, .card:hover{border-color:rgba(96,165,250,.35);box-shadow:0 0 0 4px var(--ring), var(--shadow)}
+    .badge{display:inline-flex;align-items:center;gap:8px;font-weight:600;background:rgba(96,165,250,.12);border:1px solid rgba(96,165,250,.35);padding:8px 10px;border-radius:12px;animation:float 3s ease-in-out infinite}
+    .badge.green{background:rgba(34,197,94,.12);border-color:rgba(34,197,94,.35)}
+    .title{font-size:1.05rem;font-weight:700;margin:2px 0}
+    .desc{color:var(--muted);font-size:.92rem;line-height:1.45}
+    .list{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .list div{background:#0f1733;border:1px solid rgba(255,255,255,.06);padding:10px;border-radius:12px;display:flex;align-items:center;justify-content:space-between}
+    .list strong{font-weight:700}
+    .features{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:4px}
+    .feat{font-size:.9rem;color:#cbd5e1;display:flex;align-items:center;gap:8px}
+    .feat svg{width:16px;height:16px;flex:0 0 16px}
+    .actions{margin-top:4px;display:flex;gap:10px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;gap:10px;padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.08);background:#0f1733;cursor:pointer;font-weight:700;transition:all 0.3s ease, transform 0.2s ease}
+    .btn:hover{transform:translateY(-3px) scale(1.02); box-shadow:0 5px 15px rgba(0,0,0,0.2)}
+    .btn.primary:hover {animation:pulse 1s infinite}
+    .btn.primary{background:linear-gradient(135deg,var(--acc),#16a34a);border-color:transparent;color:#05120a}
+    .btn.secondary{background:linear-gradient(135deg,var(--acc-2),#1d4ed8);border-color:transparent}
+    .btn svg{width:18px;height:18px}
+    footer{margin:28px 0 8px;color:var(--muted);font-size:.9rem;animation:slideInRight 0.8s ease-out forwards;opacity:0;transform:translateX(20px)}
+    /* mini tag */
+    .chip{font-size:.75rem;font-weight:700;padding:6px 10px;border-radius:999px;background:#0e1530;border:1px solid rgba(255,255,255,.06)}
+    .row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  </style>
+</head>
+<body class="<%= bgmode === 'white' ? 'white-content' : '' %>">
+<script>
+// Persist white-content mode across pages
+document.addEventListener('DOMContentLoaded', function() {
+  if (localStorage.getItem('whiteContent') === 'true') {
+    document.body.classList.add('white-content');
+  } else {
+    document.body.classList.remove('white-content');
+  }
+});
+</script>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="logo" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.5 6.5L22 10l-6 4.5L17.5 22 12 18.5 6.5 22 8 14.5 2 10l6.5-1.5L12 2z"/></svg>
+        </div>
+        <div>
+          <h1>NICKY STORE — Pterodactyl Server</h1>
+          <div class="subtitle">Ready panel private • Spek 8c4 • Garansi 30 hari</div>
+        </div>
+      </div>
+      <a class="btn secondary" href="https://wa.me/6285649689059" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.52 3.48A11.82 11.82 0 0 0 12.06 0C5.46 0 .09 5.37.09 12c0 2.1.54 4.11 1.56 5.9L0 24l6.26-1.64A11.9 11.9 0 0 0 12.1 24h.01c6.6 0 11.97-5.37 11.97-12 0-3.2-1.25-6.2-3.56-8.52ZM12.1 21.8a9.8 9.8 0 0 1-4.99-1.36l-.36-.22-3.72.97.99-3.63-.24-.37A9.78 9.78 0 1 1 12.1 21.8Zm5.38-7.28c-.29-.15-1.7-.84-1.96-.94-.26-.1-.45-.15-.64.15-.19.3-.73.94-.9 1.13-.17.2-.33.22-.62.07-.29-.15-1.2-.44-2.29-1.4-.85-.76-1.42-1.7-1.59-1.98-.17-.3-.02-.46.13-.6.13-.13.29-.34.43-.5.14-.17.19-.29.29-.49.1-.2.05-.37-.02-.52-.07-.15-.64-1.54-.88-2.1-.23-.56-.47-.49-.64-.5l-.55-.01c-.2 0-.52.07-.8.37-.27.3-1.05 1.02-1.05 2.48 0 1.46 1.08 2.87 1.23 3.07.15.2 2.13 3.26 5.16 4.57.72.31 1.28.5 1.71.64.72.23 1.38.2 1.9.12.58-.09 1.7-.7 1.94-1.37.24-.67.24-1.25.17-1.37-.07-.12-.26-.19-.55-.34Z"/></svg>
+        Hubungi WhatsApp
+      </a>
+    </header>
+
+    <!-- Kategori -->
+    <div class="pillbar" id="filters">
+      <button class="pill active" data-filter="all">Semua</button>
+      <button class="pill" data-filter="node">Egg Node.js</button>
+      <button class="pill" data-filter="java">Minecraft Java</button>
+      <button class="pill" data-filter="bedrock">Minecraft Bedrock</button>
+    </div>
+
+    <!-- GRID PRODUK -->
+    <section class="grid" id="grid">
+      <!-- Node.js -->
+      <article class="card" data-cat="node">
+        <span class="badge">Egg • Node.js</span>
+        <div class="row">
+          <div class="title">Bot WhatsApp — Pterodactyl</div>
+          <span class="chip">Anti Delay</span>
+          <span class="chip">Support All SC</span>
+        </div>
+        <p class="desc">Paket hosting panel private untuk bot WhatsApp (Node.js). Stabil, aman, dan disetel agar hemat resource.</p>
+
+        <div class="list">
+          <div><span>2 GB • CPU 50%</span><strong>2K</strong></div>
+          <div><span>3 GB • CPU 70%</span><strong>3K</strong></div>
+          <div><span>4 GB • CPU 90%</span><strong>5K</strong></div>
+          <div><span>5 GB • CPU 100%</span><strong>6K</strong></div>
+          <div><span>7 GB • CPU 120%</span><strong>7K</strong></div>
+          <div><span>8 GB • CPU 140%</span><strong>8K</strong></div>
+          <div><span>9 GB • CPU 160%</span><strong>9K</strong></div>
+          <div><span>10 GB • CPU 200%</span><strong>11K</strong></div>
+          <div style="grid-column:1/-1"><span>Unlimited</span><strong>15K</strong></div>
+        </div>
+
+        <div class="features">
+          <div class="feat">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>
+            SC aman anti colong
+          </div>
+          <div class="feat"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Anti delete</div>
+          <div class="feat"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Server & user terjaga</div>
+          <div class="feat"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Garansi 30 hari</div>
+        </div>
+
+        <div class="actions">
+          <button class="btn primary order" data-item="Bot WhatsApp (Node.js)">Pesan via WhatsApp</button>
+        </div>
+      </article>
+
+      <!-- Minecraft Java -->
+      <article class="card" data-cat="java">
+        <span class="badge green">Minecraft • Java Edition</span>
+        <div class="row">
+          <div class="title">Server Minecraft Java — Pterodactyl</div>
+          <span class="chip">Paper/Spigot</span>
+          <span class="chip">Mod/Plugin</span>
+        </div>
+        <p class="desc">Cocok untuk komunitas, lengkap dukungan Paper/Spigot/Fabric. Optimasi TPS dan backup terjadwal.</p>
+
+        <div class="list">
+          <div><span>1 GB</span><strong>10K</strong></div>
+          <div><span>2 GB</span><strong>20K</strong></div>
+          <div><span>3 GB</span><strong>30K</strong></div>
+          <div><span>4 GB</span><strong>40K</strong></div>
+          <div><span>5 GB</span><strong>50K</strong></div>
+          <div><span>6 GB</span><strong>60K</strong></div>
+          <div><span>8 GB</span><strong>80K</strong></div>
+          <div><span>10 GB</span><strong>100K</strong></div>
+          <div style="grid-column:1/-1"><span>Unlimited</span><strong>150K</strong></div>
+        </div>
+
+        <div class="features">
+          <div class="feat"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Anti lag / Fast</div>
+          <div class="feat"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Hemat penyimpanan</div>
+          <div class="feat"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Tanpa reseller/admin panel</div>
+          <div class="feat"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Garansi 30 hari</div>
+        </div>
+
+        <div class="actions">
+          <button class="btn primary order" data-item="Minecraft Java">Pesan via WhatsApp</button>
+        </div>
+      </article>
+
+      <!-- Minecraft Bedrock -->
+      <article class="card" data-cat="bedrock">
+        <span class="badge green">Minecraft • Bedrock</span>
+        <div class="row">
+          <div class="title">Server Minecraft Bedrock — Pterodactyl</div>
+          <span class="chip">Geyser/PMMP</span>
+          <span class="chip">Anti Delay</span>
+        </div>
+        <p class="desc">Bedrock edisi (Pocket/Windows). Ramah pemain mobile, konfigurasi mudah, performa stabil.</p>
+
+        <div class="list">
+          <div><span>2 GB</span><strong>2K</strong></div>
+          <div><span>3 GB</span><strong>3K</strong></div>
+          <div><span>4 GB</span><strong>5K</strong></div>
+          <div><span>5 GB</span><strong>6K</strong></div>
+          <div><span>7 GB</span><strong>7K</strong></div>
+          <div><span>8 GB</span><strong>8K</strong></div>
+          <div><span>9 GB</span><strong>9K</strong></div>
+          <div><span>10 GB</span><strong>11K</strong></div>
+          <div style="grid-column:1/-1"><span>Unlimited</span><strong>15K</strong></div>
+        </div>
+
+        <div class="features">
+          <div class="feat"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Script terjaga</div>
+          <div class="feat"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Tidak ada reseller</div>
+          <div class="feat"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Support tiket cepat</div>
+          <div class="feat"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Garansi 30 hari</div>
+        </div>
+
+        <div class="actions">
+          <button class="btn primary order" data-item="Minecraft Bedrock">Pesan via WhatsApp</button>
+        </div>
+      </article>
+    </section>
+
+    <footer>
+      Benefit lengkap: SC aman anti colong • Antidelay • Support semua SC • Script terjaga • Anti delete • Hemat penyimpanan •
+      Tidak ada reseller & admin panel • Server & User terjaga baik • Garansi 30 hari • 100% ditangani NICKY.
+    </footer>
+  </div>
+
+  <script>
+    // Animasi saat scroll
+    const animateOnScroll = () => {
+      const elements = document.querySelectorAll('.card, footer');
+      elements.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight - 100) {
+          el.style.animationPlayState = 'running';
+        }
+      });
+    };
+
+    window.addEventListener('load', () => {
+      animateOnScroll();
+    });
+
+    window.addEventListener('scroll', () => {
+      animateOnScroll();
+    });
+
+    // Filter kategori dengan animasi
+    const pills = document.querySelectorAll('.pill');
+    const cards = document.querySelectorAll('.card');
+    const grid = document.getElementById('grid');
+    
+    pills.forEach(p => {
+      p.addEventListener('click', () => {
+        pills.forEach(x => x.classList.remove('active'));
+        p.classList.add('active');
+        const f = p.dataset.filter;
+        
+        // Animasi fade out
+        cards.forEach(c => {
+          if (!(f === 'all' || c.dataset.cat === f)) {
+            c.classList.add('hidden');
+          }
+        });
+        
+        // Set timeout untuk animasi fade in
+        setTimeout(() => {
+          cards.forEach(c => {
+            if (f === 'all' || c.dataset.cat === f) {
+              c.classList.remove('hidden');
+            }
+          });
+          
+          // Reflow grid untuk menghindari jarak kosong
+          grid.style.display = 'none';
+          grid.offsetHeight; // Trigger reflow
+          grid.style.display = 'grid';
+        }, 300);
+      });
+    });
+
+    // Tombol pesan WA dengan flow baru
+    const WA_NUMBER = '6285649689059';
+    async function toWA(text, btn) {
+      const originalHTML = btn.innerHTML;
+      
+      // Tampilkan loading
+      btn.disabled = true;
+      btn.innerHTML = '<span class="loading"></span> Memproses...';
+      
+      // Simulasi loading 3 detik
+      await new Promise(resolve => setTimeout(resolve, 3000));
+      
+      // Tampilkan checkmark
+      btn.innerHTML = '<svg class="checkmark" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg> Pesanan Terkirim!';
+      
+      // Buka WhatsApp setelah animasi
+      setTimeout(() => {
+        const url = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text)}`;
+        window.open(url, '_blank');
+        btn.innerHTML = originalHTML;
+        btn.disabled = false;
+      }, 1000);
+    }
+
+    document.querySelectorAll('.order').forEach(btn => {
+      btn.addEventListener('click', async (e) => {
+        const card = e.currentTarget.closest('.card');
+        const item = card.querySelector('.title').textContent.trim();
+        const plans = Array.from(card.querySelectorAll('.list div')).map(div => {
+          return {
+            spec: div.querySelector('span').textContent.trim(),
+            price: div.querySelector('strong').textContent.trim()
+          };
+        });
+
+        // Buat pesan dengan daftar paket
+        let message = `Halo kak NICKY, saya mau pesan:\n• Produk: ${item}\n\nDaftar Paket:\n`;
+        plans.forEach(plan => {
+          message += `- ${plan.spec}: ${plan.price}\n`;
+        });
+        message += `\nSaya tertarik dengan paket mana ya? Mohon info ketersediaan & proses order.`;
+
+        await toWA(message, e.currentTarget);
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Signup</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+	<link rel="stylesheet" type="text/css" href="../vendor/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="../fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="../vendor/animate/animate.css">
+	<link rel="stylesheet" type="text/css" href="../vendor/css-hamburgers/hamburgers.min.css">
+	<link rel="stylesheet" type="text/css" href="../vendor/select2/select2.min.css">
+	<link rel="stylesheet" type="text/css" href="../css/util.css">
+	<link rel="stylesheet" type="text/css" href="../css/main.css">
+</head>
+<body class="<%= bgmode === 'white' ? 'white-content' : '' %>">
+<script>
+// Persist white-content mode across pages
+document.addEventListener('DOMContentLoaded', function() {
+	if (localStorage.getItem('whiteContent') === 'true') {
+		document.body.classList.add('white-content');
+	} else {
+		document.body.classList.remove('white-content');
+	}
+});
+</script>
+	<div>
+      <center>
+            <%- include('layouts/alert')  %> 
+            <%- include('layouts/error')  %> 
+        </center>
+	</div>	
+     <video autoplay muted loop playsinline id="bg-video">
+    <source src="../css/elaina.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+	<div class="limiter">
+		<div class="container-login100">
+			<div class="wrap-login100 animated-form"> <!-- tambahin animasi -->
+
+				<form class="login100-form validate-form" action="/users/signup" method="POST">
+					<span class="login100-form-title">
+						Auth Signup
+					</span>
+
+					<div class="wrap-input100 validate-input" data-validate = "Email is required">
+						<input class="input100" type="text" name="email" placeholder="email">
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-envelope" aria-hidden="true"></i>
+						</span>
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate = "Username is required">
+						<input class="input100" type="text" name="username" placeholder="username">
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-user" aria-hidden="true"></i>
+						</span>
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate = "Password is required">
+						<input class="input100" id="password" type="password" name="pass" placeholder="password" minlength="8" required>
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-lock" aria-hidden="true"></i>
+						</span>
+						<span class="toggle-password" onclick="togglePassword('password','eye1')">
+							<i id="eye1" class="fa fa-eye"></i>
+						</span>
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate = "Confirm password is required">
+						<input class="input100" id="confirmPassword" type="password" name="pass2" placeholder="confirm password" minlength="8" required>
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-lock" aria-hidden="true"></i>
+						</span>
+						<span class="toggle-password" onclick="togglePassword('confirmPassword','eye2')">
+							<i id="eye2" class="fa fa-eye"></i>
+						</span>
+					</div>
+
+					<div class="container-login100-form-btn">
+						<button class="login100-form-btn">
+							Sign Up
+						</button>
+					</div>
+
+					<div class="text-center p-t-40">
+						<a class="txt2" href="/users/login">
+							Already have account
+							<i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
+						</a>
+					</div>
+				</form>
+
+			</div>
+		</div>
+	</div>
+
+	<script src="../vendor/jquery/jquery-3.2.1.min.js"></script>
+	<script src="../vendor/bootstrap/js/popper.js"></script>
+	<script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script src="../vendor/select2/select2.min.js"></script>
+	<script src="../vendor/tilt/tilt.jquery.min.js"></script>
+	<script>
+		$('.js-tilt').tilt({ scale: 1.1 });
+
+		function togglePassword(inputId, iconId){
+			const input = document.getElementById(inputId);
+			const icon = document.getElementById(iconId);
+			if(input.type === "password"){
+				input.type = "text";
+				icon.classList.remove("fa-eye");
+				icon.classList.add("fa-eye-slash");
+			} else {
+				input.type = "password";
+				icon.classList.remove("fa-eye-slash");
+				icon.classList.add("fa-eye");
+			}
+		}
+	</script>
+	<script src="../js/main.js"></script>
+</body>
+</html>
