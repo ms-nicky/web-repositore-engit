@@ -1,0 +1,54 @@
+name: MS WEB
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 */6 * * *" # restart tiap 6 jam otomatis
+
+jobs:
+  run-node-tunnel:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360  # max 6 jam per job
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js v22
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Start Node.js app (show logs)
+        run: |
+          npm start 2>&1 | tee node.log &
+          echo "Node.js app started with npm start"
+
+      - name: Install cloudflared
+        run: |
+          wget https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
+          sudo dpkg -i cloudflared-linux-amd64.deb || sudo apt-get -f install -y
+
+      - name: Run Cloudflare Tunnel
+        run: |
+          cloudflared tunnel run --token ${{ secrets.CLOUDFLARE_TUNNEL_TOKEN }} 2>&1 | tee tunnel.log &
+          echo "Tunnel started"
+
+      - name: Run sshx.io session
+        run: |
+          echo "Starting sshx.io session..."
+          (curl -sSf https://sshx.io/get | sh -s run) 2>&1 | tee sshx.log &
+          sleep 8
+          echo "=== sshx.io log preview ==="
+          head -n 20 sshx.log || true
+          echo "==========================="
+
+      - name: Keep workflow alive
+        run: |
+          while true; do
+            echo "[$(date)] Workflow alive"
+            sleep 300
+          done
