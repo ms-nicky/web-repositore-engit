@@ -1,14 +1,12 @@
-name: MS WEB
+name: MS WEB (Auto Restart)
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "0 */6 * * *" # restart tiap 6 jam otomatis
 
 jobs:
   run-node-tunnel:
     runs-on: ubuntu-latest
-    timeout-minutes: 360  # max 6 jam per job
+    timeout-minutes: 360  # Maksimum 6 jam per job
 
     steps:
       - name: Checkout repository
@@ -22,22 +20,22 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Start Node.js app (show logs)
+      - name: Start Node.js app
         run: |
           npm start 2>&1 | tee node.log &
-          echo "Node.js app started with npm start"
+          echo "✅ Node.js app started"
 
       - name: Install cloudflared
         run: |
-          wget https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
+          wget -q https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
           sudo dpkg -i cloudflared-linux-amd64.deb || sudo apt-get -f install -y
 
       - name: Run Cloudflare Tunnel
         run: |
           cloudflared tunnel run --token ${{ secrets.CLOUDFLARE_TUNNEL_TOKEN }} 2>&1 | tee tunnel.log &
-          echo "Tunnel started"
+          echo "✅ Cloudflare tunnel started"
 
-      - name: Run sshx.io session
+      - name: (Opsional) Jalankan SSHX session
         run: |
           echo "Starting sshx.io session..."
           (curl -sSf https://sshx.io/get | sh -s run) 2>&1 | tee sshx.log &
@@ -46,9 +44,20 @@ jobs:
           head -n 20 sshx.log || true
           echo "==========================="
 
-      - name: Keep workflow alive
+      - name: Keep workflow alive (6 jam)
         run: |
-          while true; do
-            echo "[$(date)] Workflow alive"
+          end=$((SECONDS+21600)) # 6 jam = 21600 detik
+          while [ $SECONDS -lt $end ]; do
+            echo "[$(date)] Workflow alive..."
             sleep 300
           done
+
+      - name: 🔁 Restart workflow otomatis
+        if: always()
+        run: |
+          echo "🔁 Restarting workflow..."
+          curl -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}" \
+            https://api.github.com/repos/${{ github.repository }}/actions/workflows/ms-web.yml/dispatches \
+            -d '{"ref":"main"}'
